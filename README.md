@@ -1,3 +1,4 @@
+[![Run on Repl.it](https://repl.it/badge/github/HipyCas/Utilities-Lib-Python)](https://repl.it/github/HipyCas/Utilities-Lib-Python)
 `Utilities library for Python - By HipyCas`
 
 **This library includes various utility functions in different categories: maths, variables, etc.**
