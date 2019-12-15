@@ -37,6 +37,10 @@ class Hydrogen (PeriodicTableElement):
         self.nick = str(nick)
         self.count += 1
 
+    def __add__(self, other):
+        if type(other) == Hydrogen:
+            return Helium(self.nick + " + " + other.nick)
+
 
 class Helium(PeriodicTableElement):
     count = 0
