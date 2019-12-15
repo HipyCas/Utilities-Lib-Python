@@ -8,10 +8,10 @@ setuptools.setup(
     version="0.0.1",
     author="HipyCas",
     author_email="hipycas+python@gmail.com",
-    description="Includes a lot of useful classes and functions",
+    description="A set of useful classes and functions",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/pypa/sampleproject",
+    url="https://github.com/HipyCas/Utilities-Lib-Python",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
