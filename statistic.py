@@ -8,9 +8,9 @@ def mean(*args):
         print(args[0])
         for data in args[0]:
             sum += data
-        print(type(sum/len(args[0])))
+        print(type(sum / len(args[0])))
         return float(sum / len(args[0]))
-    elif not type(args[0]) == list or not ype(args[0]) == tuple or not type(args[0]) == dict:
+    elif not type(args[0]) == list or not type(args[0]) == tuple or not type(args[0]) == dict:
         for data in args:
             sum += data
         return float(sum / len(args))
@@ -33,14 +33,14 @@ def var(*args):
         mean = exec("mean(args)")
         for data in args:
             sum += data - mean
-        return (sum**2) / len(args)
+        return (sum ** 2) / len(args)
     else:
         print("Unsupported data type")
         return None
 
 
 if __name__ == "__main__":
-    data = [0,10,5,20,-10,567,37,-231,65,1,67.724]
+    data = [0, 10, 5, 20, -10, 567, 37, -231, 65, 1, 67.724]
     print(type(data))
     print(type(data) == list)
     print(mean(data))
