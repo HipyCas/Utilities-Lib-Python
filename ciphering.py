@@ -1,5 +1,3 @@
-# from utilities import maths
-
 abc_en: list = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u',
                 'v', 'w', 'x', 'y', 'z']
 
@@ -13,25 +11,40 @@ text: str = 'abba'
 
 
 def encode_dict(string, keys):
+    """
+    Encodes a string making use of a dictionary where the keys are the alphabet characters and the values the characters
+    to encode to.
+    :param string:
+    :param keys:
+    :return coded string:
+    """
     for key in keys:
-        print("=== Looking for [" + key + "] ===")
         while key in string:
-            print("Found occurence of [" + key + "] in: '" + string + "'")
             string = string.replace(key, keys[key])
-            print("--> Updated text: " + string)
     return string
 
 def decode_dict(string, keys):
+    """
+    Decodes a string making use of a dictionary where the keys are the alphabet characters and the values the characters
+    to encode to.
+    :param string:
+    :param keys:
+    :return decoded string:
+    """
     for key in keys:
-        print("=== Looking for [" + keys[key] + "] ===")
         while keys[key] in string:
-            print("Found occurence of [" + keys[key] + "] in: '" + string + "'")
             string = string.replace(keys[key], key)
-            print("--> Updated text: " + string)
     return string
 
 
 def encode_cesar(string, shift, abc=None):
+    """
+    Encodes a string with cesar method
+    :param string:
+    :param shift:
+    :param abc:
+    :return coded string:
+    """
     if abc is None:
         abc = abc_en.copy()
     if not (type(abc) == tuple or type(abc) == list):
@@ -40,25 +53,26 @@ def encode_cesar(string, shift, abc=None):
     chars = []
     for char in string:
         if not char in chars:
-            try:
-                print('=== Cesar for character [' + char + '] of abc index [' + str(abc.index(char)) + ']')
-            except ValueError:
-                print('=== Cesar for character [' + char + '] of abc index [?]')
             if abs(shift) > len(abc):
                 this_shift = shift - (int(shift / len(abc)) * len(abc))
             else:
                 this_shift = shift
-            print("Updated shift is: " + str(this_shift))
             try:
                 new_index = abc.index(char) + this_shift
             except ValueError:
                 break
-            print('Nex index is: ' + str(new_index))
             string = string.replace(char, abc[new_index])
         chars.append(char)
     return string
 
 def decode_cesar(string, shift, abc=None):
+    """
+    Decodes a string with cesar method
+    :param string:
+    :param shift:
+    :param abc:
+    :return decoded string:
+    """
     if abc is None:
         abc = abc_en.copy()
     if not (type(abc) == tuple or type(abc) == list):
@@ -67,27 +81,28 @@ def decode_cesar(string, shift, abc=None):
     chars = []
     for char in string:
         if not char in chars:
-            try:
-                print('=== Cesar for character [' + char + '] of abc index [' + str(abc.index(char)) + ']')
-            except ValueError:
-                print('=== Cesar for character [' + char + '] of abc index [?]')
             if abs(shift) > len(abc):
                 this_shift = shift - (int(shift / len(abc)) * len(abc))
             else:
                 this_shift = shift
-            print("Updated shift is: " + str(this_shift))
             try:
                 new_index = abc.index(char) - this_shift
             except ValueError:
                 break
-            print('Nex index is: ' + str(new_index))
             string = string.replace(char, abc[new_index])
-            print('--> New string is' + string + '(replaced [' + char + '] with [' + abc[new_index] + '])')
             chars.append(char)
     return string
 
 
 def encode_affine(string, a, b, abc=None):
+    """
+    Encodes a string with the affine method
+    :param string:
+    :param a:
+    :param b:
+    :param abc:
+    :return coded string:
+    """
     if abc is None:
         abc = abc_en.copy()
         print(type(abc))
@@ -100,63 +115,71 @@ def encode_affine(string, a, b, abc=None):
     for char in string:
         if not char in chars:
             try:
-                print('=== Affin for character [' + char + '] of abc index [' + str(abc.index(char)) + ']')
-            except ValueError:
-                print('=== Affin for character [' + char + '] of abc index [?]')
-            try:
                 new_index = a * abc.index(char) + b
             except ValueError:
                 break
-            print('Unfixed new index is: ' + str(new_index))
             if abs(new_index) > len(abc):
-                print('>Index is greater than len of abc by: ' + str(int(new_index / len(abc))))
                 new_index = new_index - (int(new_index / len(abc)) * len(abc))
-            print('Index fixed to: ' + str(new_index))
-            print('--> New string is' + string + '(replaced [' + char + '] with [' + abc[new_index] + '])')
             string = string.replace(char, abc[int(new_index)])
             chars.append(char)
     return string
 
 def decode_affine(string, a, b, abc=None):
+    """
+    Decodes a string with the affine method.
+    =!= DOESN'T SEEM TO WORK PROPERLY =!=
+    :param string:
+    :param a:
+    :param b:
+    :param abc:
+    :return decoded string:
+    """
+    # set alphabet
     if abc is None:
-        abc = abc_en.copy()
-        print(type(abc))
-    if type(abc) == int:
-        return True
-    if not (type(abc) == tuple or type(abc) == list):
-        return False
-    string = str(string)
-    print(len(abc))
-    chars = []
+        abc = abc_en.copy()  # default
+    elif type(abc) == list:
+        abc = abc.copy()  # copies list for security
+    elif type(abc) != tuple:
+        return False  # returns False and ends de function if the type is not list or tuple
+    string = str(string)  # converts string param to string for safety
+    chars = []  # storage for chars already mapped
     for char in string:
         if not char in chars:
-            try:
-                print('=== Affin for character [' + char + '] of abc index [' + str(abc.index(char)) + ']')
-            except ValueError:
-                print('=== Affin for character [' + char + '] of abc index [?]')
             try:
                 new_index = (abc.index(char) - b) / a
             except ValueError:
                 break
-            print('Unfixed new index is: ' + str(new_index))
             if abs(new_index) > len(abc):
-                print('>Index is greater than len of abc by: ' + str(int(new_index / len(abc))))
                 new_index = new_index - (int(new_index / len(abc)) * len(abc))
-            print('Index fixed to: ' + str(new_index))
-            print('--> New string is' + string + '(replaced [' + char + '] with [' + abc[int(new_index)] + '])')
             string = string.replace(char, abc[int(new_index)])
             chars.append(char)
     return string
 
 
 def encode_reverse(string):
-    return str(string)[::-1]
+    """
+    Encodes a string with the reverse ciphering method
+    :param string:
+    :return encoded string:
+    """
+    return str(string)[::-1]  # reverse string
 
 def decode_reverse(string):
-    return str(string)[::-1]
+    """
+    Encodes a string with the reverse ciphering method
+    :param string:
+    :return decoded string:
+    """
+    return str(string)[::-1]  # reverse string
 
 
 def encode_atbash(string, abc=None):
+    """
+    Encodes a string with the classic atbash ciphering method
+    :param string:
+    :param abc:
+    :return coded string:
+    """
     if abc is None:
         abc = abc_en.copy()
     elif type(abc) == list:
@@ -167,17 +190,18 @@ def encode_atbash(string, abc=None):
     new_string = ''
     for char in string:
         try:
-            print('=== Atbash for character [' + char + '] of abc index [' + str(abc.index(char)) + ']')
-        except ValueError:
-            print('=== Atbash for character [' + char + '] of abc index [?]')
-        try:
-            print('Character in reversed array is [' + abc_rev[abc.index(char)] + '] of index: ' + str(abc_rev.index(char)))
             new_string += abc_rev[abc.index(char)]
         except ValueError:
             new_string += char
     return new_string
 
 def decode_atbash(string, abc=None):
+    """
+    Decodes a string with the classic atbash ciphering method
+    :param string:
+    :param abc:
+    :return decoded string:
+    """
     if abc is None:
         abc = abc_en.copy()
     elif type(abc) == list:
@@ -188,11 +212,6 @@ def decode_atbash(string, abc=None):
     new_string = ''
     for char in string:
         try:
-            print('=== Atbash for character [' + char + '] of abc index [' + str(abc.index(char)) + ']')
-        except ValueError:
-            print('=== Atbash for character [' + char + '] of abc index [?]')
-        try:
-            print('Character in reversed array is [' + abc[abc_rev.index(char)] + '] of index: ' + str(abc.index(char)))
             new_string += abc[abc_rev.index(char)]
         except ValueError:
             new_string += char
