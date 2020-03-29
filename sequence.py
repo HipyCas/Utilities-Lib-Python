@@ -2,17 +2,17 @@ class Sequence:
     def __init__(self, *args):
         self.terms = args
         if args[1] - args[0] == args[2] - args[1] and args[3] - args[2] == args[2] - args[1] and args[3] - args[2] == args[1] - args[0]:
-            self.type = 0   # 0 == Arimetica
+            self.type = 0   # 0 == Arithmetic
             self.difference = args[1] - args[0]
             self.generalterm = str(args[0] - self.difference) + " + " + str(self.difference) + " * n"
             self.recursive = "tn-1 + " + str(self.difference)
         elif args[1] / args[0] == args[2] / args[1] and args[3] / args[2] == args[2] / args[1] and args[3] / args[2] == args[1] / args[0]:
-            self.type = 1   # 1 == Geometrica
+            self.type = 1   # 1 == Geometric
             self.difference = args[1] / args[0]
             self.generalterm = str(args[0]) + " * (" + str(self.difference) + " ** (n-1))"
             self.recursive = "self.terms[n-1] * " + str(self.difference)
         else:
-            self.type = -1
+            self.type = -1 # -1 == Unknown
 
     def term(self, n):
         print(self.generalterm.replace("n", str(n)))
@@ -30,7 +30,7 @@ if __name__ == "__main__":
     print(a.recursive)
     print(a.term(10))
     print("-----")
-    g = Sequence(int(input("t1:")),int(input("t2:")),int(input("t3:")),int(input("t4:")))
+    g = Sequence(int(input("t1:")), int(input("t2:")), int(input("t3:")), int(input("t4:")))
     print(g.terms)
     print(g.type)
     try:

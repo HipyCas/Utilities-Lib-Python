@@ -1,8 +1,8 @@
 class Atom:
     count = 0
 
-    def __init__(self, usePreset=False, **kwargs):
-        if usePreset:
+    def __init__(self, use_preset=False, **kwargs):
+        if use_preset:
             preset = kwargs['preset']
             self.z = preset.z
             self.a = preset.a

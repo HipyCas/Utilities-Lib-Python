@@ -201,3 +201,9 @@ def factorize_precision(x):
     if x != 1:
         factors.append(x)
     return factors
+
+
+def round(num: float):
+    if (num - int(num)) >= 0.5:
+        num += 1
+    return int(num)
