@@ -150,10 +150,53 @@ def decode_affine(string, a, b, abc=None):
 
 
 def encode_reverse(string):
-    return string[::-1]
+    return str(string)[::-1]
 
 def decode_reverse(string):
-    return string[::-1]
+    return str(string)[::-1]
+
+
+def encode_atbash(string, abc=None):
+    if abc is None:
+        abc = abc_en.copy()
+    elif type(abc) == list:
+        abc = abc.copy()
+    elif type(abc) != tuple:
+        return False
+    abc_rev = list(reversed(abc))
+    new_string = ''
+    for char in string:
+        try:
+            print('=== Atbash for character [' + char + '] of abc index [' + str(abc.index(char)) + ']')
+        except ValueError:
+            print('=== Atbash for character [' + char + '] of abc index [?]')
+        try:
+            print('Character in reversed array is [' + abc_rev[abc.index(char)] + '] of index: ' + str(abc_rev.index(char)))
+            new_string += abc_rev[abc.index(char)]
+        except ValueError:
+            new_string += char
+    return new_string
+
+def decode_atbash(string, abc=None):
+    if abc is None:
+        abc = abc_en.copy()
+    elif type(abc) == list:
+        abc = abc.copy()
+    elif type(abc) != tuple:
+        return False
+    abc_rev = list(reversed(abc))
+    new_string = ''
+    for char in string:
+        try:
+            print('=== Atbash for character [' + char + '] of abc index [' + str(abc.index(char)) + ']')
+        except ValueError:
+            print('=== Atbash for character [' + char + '] of abc index [?]')
+        try:
+            print('Character in reversed array is [' + abc[abc_rev.index(char)] + '] of index: ' + str(abc.index(char)))
+            new_string += abc[abc_rev.index(char)]
+        except ValueError:
+            new_string += char
+    return new_string
 
 
 if __name__ == "__main__":
@@ -181,17 +224,25 @@ if __name__ == "__main__":
   """
     print("~~~ AFFIN ~~~")
     print('+++ Encode +++')
-    text = encode_affin(text, 3, 54)
+    text = encode_affine(text, 3, 54)
     print(text)
     print("+++ Decode +++")
-    text = decode_affin(text, 3, 54)
+    text = decode_affine(text, 3, 54)
     print(text)
 
-    text = 'lolito my friend'
+    text = 'lolito my friend]'
     print("~~~ REVERSE ~~~")
     print('+++ Encode +++')
     text = encode_reverse(text)
     print(text)
     print("+++ Decode +++")
     text = decode_reverse(text)
+    print(text)
+
+    print("~~~ ATBASH ~~~")
+    print('+++ Encode +++')
+    text = encode_atbash(text)
+    print(text)
+    print("+++ Decode +++")
+    text = decode_atbash(text)
     print(text)
