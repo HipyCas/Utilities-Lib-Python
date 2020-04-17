@@ -3,7 +3,8 @@ abc_en: list = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
 
 key_dict: dict = {
     'a': 'c',
-    'b': 'z'
+    'b': 'z',
+    'z': '('
 }
 
 text: str = 'abba'
@@ -61,7 +62,12 @@ def encode_cesar(string, shift, abc=None):
                 new_index = abc.index(char) + this_shift
             except ValueError:
                 break
-            string = string.replace(char, abc[new_index])
+            if abs(new_index) > len(abc):
+                diff = new_index - len(abc)
+                print('-difference is: {}'.format(diff))
+                new_index = (-(new_index / abs(new_index))) * diff
+                print('-new_index is: {}'.format(new_index))
+            string = string.replace(char, abc[int(new_index)])
         chars.append(char)
     return string
 
@@ -105,24 +111,22 @@ def encode_affine(string, a, b, abc=None):
     """
     if abc is None:
         abc = abc_en.copy()
-        print(type(abc))
-    if type(abc) == int:
-        return True
-    if not (type(abc) == tuple or type(abc) == list):
+    if type(abc) == list:
+        abc = abc.copy()
+    if not type(abc) == tuple:
         return False
     string = str(string)
-    chars = []
+    new_string = ''
     for char in string:
-        if not char in chars:
-            try:
-                new_index = a * abc.index(char) + b
-            except ValueError:
-                break
-            if abs(new_index) > len(abc):
-                new_index = new_index - (int(new_index / len(abc)) * len(abc))
-            string = string.replace(char, abc[int(new_index)])
-            chars.append(char)
-    return string
+        try:
+            new_index = a * abc.index(char) + b
+        except ValueError:
+            new_string += char
+            continue
+        if abs(new_index) > len(abc):
+            new_index = new_index - (int(new_index / len(abc)) * len(abc))
+        new_string += abc[int(new_index)]
+    return new_string
 
 def decode_affine(string, a, b, abc=None):
     """
@@ -142,18 +146,18 @@ def decode_affine(string, a, b, abc=None):
     elif type(abc) != tuple:
         return False  # returns False and ends de function if the type is not list or tuple
     string = str(string)  # converts string param to string for safety
+    new_string = ''  # string for storage of result
     chars = []  # storage for chars already mapped
     for char in string:
-        if not char in chars:
-            try:
-                new_index = (abc.index(char) - b) / a
-            except ValueError:
-                break
-            if abs(new_index) > len(abc):
-                new_index = new_index - (int(new_index / len(abc)) * len(abc))
-            string = string.replace(char, abc[int(new_index)])
-            chars.append(char)
-    return string
+        try:
+            new_index = (abc.index(char) - b) / a
+        except ValueError:
+            new_string += char
+            continue
+        if abs(new_index) > len(abc):
+            new_index = new_index - (int(new_index / len(abc)) * len(abc))
+        new_string += abc[int(new_index)]
+    return new_string
 
 
 def encode_reverse(string):
@@ -241,6 +245,7 @@ if __name__ == "__main__":
     count += 1
     print ('Execution N' + str(count))
   """
+    text ='[llul]'
     print("~~~ AFFIN ~~~")
     print('+++ Encode +++')
     text = encode_affine(text, 3, 54)
