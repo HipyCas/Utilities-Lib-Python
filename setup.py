@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="Utilities",
+    name="Utilities-Lib",
     version="0.0.1",
     author="HipyCas",
     author_email="hipycas+python@gmail.com",
