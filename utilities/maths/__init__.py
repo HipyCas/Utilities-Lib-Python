@@ -117,6 +117,30 @@ class Number:
         return item in self.values
 
 
+class Vector:
+    pass
+
+
+class Matrix:
+
+    def __init__(self, matrix: list[list]):
+        self.matrix = matrix.copy()
+        self.rows = len(matrix)
+        self.cols = len(matrix[0]) if len(matrix) > 0 else 0
+        self.type = []
+        if self.cols > 0 and self.rows > 0:
+            if self.rows == self.cols:
+                self.type.append('squared')
+                for i, j in matrix:
+                    print(f'i: {i}; j: {j}')
+            else:
+                self.type.append('rectangular')
+            if self.rows == 1:
+                self.type.append('linear')
+            if self.cols == 1:
+                self.type.append('vertical')
+
+
 def square(x):
     """
     Returns the number x elevated to 2
